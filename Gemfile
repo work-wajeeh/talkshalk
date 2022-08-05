@@ -74,3 +74,4 @@ end
 
 # Added gems
 gem 'devise'
+gem 'pg'
