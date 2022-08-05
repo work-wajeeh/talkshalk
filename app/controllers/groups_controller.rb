@@ -2,24 +2,23 @@ class GroupsController < ApplicationController
   before_action :set_group, only: %i[ show edit update destroy ]
 
   def index
-    @groups = Group.all
+    @groups = current_user.groups
   end
 
   def show
   end
 
   def new
-    @group = Group.new
+    @group = current_user.groups.new
   end
 
   def edit
   end
 
   def create
-    @group = Group.new(group_params)
-
+    @group = current_user.groups.create(group_params.merge(creator_id: current_user.id))
     respond_to do |format|
-      if @group.save
+      if @group.present?
         format.html { redirect_to group_url(@group), notice: "Group was successfully created." }
         format.json { render :show, status: :created, location: @group }
       else

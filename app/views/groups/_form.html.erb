@@ -18,7 +18,8 @@
 
   <div>
     <%= form.label :access, style: "display: block" %>
-    <%= form.select :access, access_types %>
+    <%= form.select :access, access_types, { include_blank: '' }, class: 'hide_first' %>
+
   </div>
 
   <div>
