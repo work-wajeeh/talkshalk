@@ -1,15 +1,26 @@
 <p style="color: green"><%= notice %></p>
 
 <div>
-  <%= render @group %>
-  <p>Created by: </p>
   <div>
-    <%= link_to "Back to groups", groups_path %>
-    <%if current_user.group_creatore? (@group) %>
+  <span>
+    <h2><%= @group.name%></h2>
+    <%if current_user.group_creator? (@group) %>
       <div>
         <%= link_to "Edit this group", edit_group_path(@group) %>
         <%= button_to "Destroy this group", @group, method: :delete %>
       </div>
+    <%else%>
+      <%= group_relation_status(@group, current_user) %>
     <%end%>
+  </span>
+  </div>
+  <p>Created by: <%= @group.creator.email%> </p>
+  <%if @group.creator?(current_user) || @group.approved_member?(current_user)%>
+    <%= render "posts/posts", posts: @group.posts%>
+    <%= link_to "Group posts", group_posts_path(@group) %>
+    <%= link_to "Create Post", new_group_post_path(@group) %>
+  <%end%>
+  <div>
+    <%= link_to "Back to groups", groups_path %>
   </div>
 </div>

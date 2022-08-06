@@ -5,6 +5,8 @@ class Group < ApplicationRecord
   has_many :users, through: :user_groups
   belongs_to :creator, :class_name => "User", :foreign_key => "creator_id"
 
+  has_many :posts
+
 
   def creator? user
     self.creator == user
@@ -13,6 +15,10 @@ class Group < ApplicationRecord
   def add_user user
     self.users << user
     self.user_groups.find_by(user_id: user.id)&.joined!
+  end
+
+  def approved_member? user
+    self.user_groups.find_by(user_id: user.id)&.joined?
   end
 
 end

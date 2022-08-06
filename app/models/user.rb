@@ -8,7 +8,9 @@ class User < ApplicationRecord
   has_many :groups, through: :user_groups
   has_many :group_properties, :class_name => "Group", :foreign_key => "creator_id"
 
-  def group_creatore? group
+  has_many :posts, :class_name => "Post", :foreign_key => "author_id"
+
+  def group_creator? group
     group.creator == self
   end
 
