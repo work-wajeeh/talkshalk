@@ -9,6 +9,8 @@ class User < ApplicationRecord
   has_many :group_properties, :class_name => "Group", :foreign_key => "creator_id"
 
   has_many :posts, :class_name => "Post", :foreign_key => "author_id"
+  
+  has_many :comments, :class_name => "Comment", :foreign_key => "commentor_id"
 
   def group_creator? group
     group.creator == self

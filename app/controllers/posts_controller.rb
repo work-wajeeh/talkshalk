@@ -3,12 +3,13 @@ class PostsController < ApplicationController
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
     @group = Group.find_by_id(params[:group_id])
+    @posts = @group.posts
   end
 
   # GET /posts/1 or /posts/1.json
   def show
+    @comment = @post.comments.new
   end
 
   # GET /posts/new

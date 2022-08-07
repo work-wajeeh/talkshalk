@@ -4,7 +4,9 @@ Rails.application.routes.draw do
     member do
       get 'join'
     end
-    resources :posts
+    resources :posts do
+      resources :comments
+    end
   end
   root to: "groups#index" 
 end
