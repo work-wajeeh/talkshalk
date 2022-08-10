@@ -3,8 +3,26 @@
 <div>
   <div style='display: flex;'><p style='font-weight: 700;'><%=@post.title%></p><p>(<%= @post.author.email %>)</p></div>
   <p><%=@post.content%></p>
+  Comments: 
+    <%@post.comments.where(parent_id: nil).each do |comment|%>
+    <div style='padding-left: 30px;'>
+      <p><%=comment.content%></p>
+      <ul>
+        <%comment.replies.each do |reply|%>
+          <li> <%= reply.content%></li>
+        <%end%>
+      </ul>
+      <%= render "comments/form", comment: comment.replies.new, label: 'Reply', parent_id: comment.id %>
+    </div>
+  <hr>
+  <%end%>
+  
 </div>
 
+<div>
+<%= render "comments/form", comment: @comment, label: 'Comment', parent_id: nil %>
+</div>
+<br><br>
 <div>
   <%if @post.author == current_user || @post.group.creator?(current_user)%>
     <%= link_to "Edit this post", edit_group_path(@post) %> |
@@ -14,6 +32,3 @@
 
 </div>
 
-<div>
-<%= render "comments/form", comment: @comment %>
-</div>

@@ -22,8 +22,7 @@ class CommentsController < ApplicationController
   # POST /comments or /comments.json
   def create
     post = Post.find(params[:post_id])
-    @comment = Comment.new(comment_params.merge(commentor_id: current_user.id, post_id: post.id))
-
+    @comment = Comment.new(comment_params.merge(commentor_id: current_user.id, post_id: post.id, parent_id: params[:parent_id]))
     respond_to do |format|
       if @comment.save
         format.html { redirect_to group_post_url(@comment.post.group, @comment.post), notice: "Comment was successfully created." }

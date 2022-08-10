@@ -12,11 +12,13 @@
   <% end %>
 
   <div>
-    <%= form.label :content, style: "display: block" %>
+    <%= form.label label, style: "display: block" %>
     <%= form.text_field :content %>
   </div>
 
+  <%= hidden_field_tag 'parent_id', parent_id %>
+
   <div>
-    <%= form.submit %>
+    <%= form.submit 'Post' %>
   </div>
 <% end %>
