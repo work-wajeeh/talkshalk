@@ -3,7 +3,7 @@ class PostsController < ApplicationController
 
   # GET /posts or /posts.json
   def index
-    @group = Group.find_by_id(params[:group_id])
+    @group = Group.find_by_id(params['group_id'])
     @posts = @group.posts
   end
 
@@ -24,12 +24,11 @@ class PostsController < ApplicationController
 
   # POST /posts or /posts.json
   def create
-    @group = Group.find_by_id(params[:group_id])
+    @group = Group.find_by_id(params['group_id'])
     @post = Post.new(post_params.merge(author_id: current_user.id, group_id: @group.id))
-
     respond_to do |format|
       if @post.save
-        format.html { redirect_to group_posts_url(@post), notice: "Post was successfully created." }
+        format.html { redirect_to group_posts_url(@group), notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new, status: :unprocessable_entity }

@@ -23,8 +23,13 @@ class CommentsController < ApplicationController
   def create
     post = Post.find(params[:post_id])
     @comment = Comment.new(comment_params.merge(commentor_id: current_user.id, post_id: post.id, parent_id: params[:parent_id]))
+
     respond_to do |format|
       if @comment.save
+        parent_comment = @comment.parent
+        if parent_comment.present?
+        ActionCable.server.broadcast("notification_channel_#{parent_comment.commentor_id}", "#{current_user.email} replied to your comment in #{post.group.name}")
+        end
         format.html { redirect_to group_post_url(@comment.post.group, @comment.post), notice: "Comment was successfully created." }
         format.json { render :show, status: :created, location: @comment }
       else
